@@ -92,6 +92,12 @@ on GitHub or get a copy using git with the following command:
 
 **Stable releases**
 
+**[v27](https://github.com/qorg11/sxiv/archive/v27.tar.gz)**
+
+*(June 14, 2021)*
+
+  * Added URL support
+
 **[v26](https://github.com/muennich/sxiv/archive/v26.tar.gz)**
 *(January 16, 2020)*
 
