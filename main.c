@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <curl/curl.h>
 #include <X11/keysym.h>
 #include <X11/XF86keysym.h>
 
@@ -864,11 +865,22 @@ int main(int argc, char **argv)
 		}
 		free(filename);
 	}
-
 	for (i = 0; i < options->filecnt; i++) {
 		filename = options->filenames[i];
-
-		if (stat(filename, &fstats) < 0) {
+		
+		if (options->from_url) {
+			n = 0;
+			CURL *curl = curl_easy_init();
+			char *url = filename;
+			filename = "/tmp/image";
+			curl_easy_setopt(curl, CURLOPT_URL, url);
+			FILE *fp = fopen(filename,"w");
+			curl_easy_setopt(curl, CURLOPT_WRITEDATA,fp);
+			curl_easy_perform(curl);
+			check_add_file(filename,true);
+			fclose(fp);
+			continue;
+		} else if (stat(filename, &fstats) < 0) {
 			error(0, errno, "%s", filename);
 			continue;
 		}
@@ -888,6 +900,7 @@ int main(int argc, char **argv)
 			if (fileidx - start > 1)
 				qsort(files + start, fileidx - start, sizeof(fileinfo_t), fncmp);
 		}
+
 	}
 
 	if (fileidx == 0)

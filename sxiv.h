@@ -260,6 +260,7 @@ struct opt {
 	/* file list: */
 	char **filenames;
 	bool from_stdin;
+	bool from_url;
 	bool to_stdout;
 	bool recursive;
 	int filecnt;

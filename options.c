@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <regex.h>
 
 opt_t _options;
 const opt_t *options = (const opt_t*) &_options;
@@ -171,10 +172,18 @@ void parse_options(int argc, char **argv)
 
 	_options.filenames = argv + optind;
 	_options.filecnt = argc - optind;
-
+	//puts(_options.filenames[0]);
 	if (_options.filecnt == 1 && STREQ(_options.filenames[0], "-")) {
 		_options.filenames++;
 		_options.filecnt--;
 		_options.from_stdin = true;
 	}
+	regex_t reg;
+	regcomp(&reg, "^https\\|http", 0);
+	int regd = regexec(&reg, _options.filenames[0],0,NULL,0);
+	
+	if(regd == 0 && _options.filecnt == 1)
+		_options.from_url = true;
+
+	
 }
