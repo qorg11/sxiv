@@ -179,12 +179,12 @@ void parse_options(int argc, char **argv)
 		_options.from_stdin = true;
 	}
 	if(_options.filecnt == 1) {
-	regex_t reg;
-	regcomp(&reg, "^https\\|http", 0);
-	int regd = regexec(&reg, _options.filenames[0],0,NULL,0);
+		regex_t reg;
+		regcomp(&reg, "^https\\|http", 0);
+		int regd = regexec(&reg, _options.filenames[0],0,NULL,0);
 	
-	if(regd == 0 && _options.filecnt == 1)
-		_options.from_url = true;
+		if(regd == 0 && _options.filecnt == 1)
+			_options.from_url = true;
 	}
 	
 }
